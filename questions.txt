@@ -1,0 +1,1 @@
+- should we drop a column in one-hot-encoding? 
