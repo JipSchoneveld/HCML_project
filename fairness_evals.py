@@ -22,14 +22,27 @@ def true_postive_rates(model_result : pd.DataFrame, feature: str):
 
     return result
 
+def false_postive_rates(model_result : pd.DataFrame, feature: str):
+    result = {} 
+    for group in model_result[feature].unique():
+        gold_false_group = model_result[(model_result[feature] == group) & (model_result['income'] == 0)]
+        if len(gold_false_group)>0:
+            FPR_group = gold_false_group['y_pred'].sum() / len(gold_false_group)
+            result[group] = FPR_group
+        else: 
+            print(f'No gold false instances found for {group}')
+            result[group] = None
+
+    return result
+
 def true_negative_rate(model_result : pd.DataFrame, feature: str):
     result = {} 
     for group in model_result[feature].unique():
         gold_false_group = model_result[(model_result[feature] == group) & (model_result['income'] == 0)]
         if len(gold_false_group)>0:
             pred_false_of_gold_group = model_result[(model_result[feature] == group) & (model_result['income'] == 0) & (model_result['y_pred'] == 0)]
-            TFR_group =  len(pred_false_of_gold_group) / len(gold_false_group)
-            result[group] = TFR_group
+            TNR_group =  len(pred_false_of_gold_group) / len(gold_false_group)
+            result[group] = TNR_group
         else: 
             print(f'No gold false instances found for {group}')
             result[group] = None
