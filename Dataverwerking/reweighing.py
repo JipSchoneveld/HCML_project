@@ -1,5 +1,7 @@
 def weighting_educ(column_mf, column_level):
     #Creating the observed data
+    column_level = column_level.copy()
+    column_mf = column_mf.copy()
     possible_levels = {"HS-grad", "Some-college", "Assoc-acdm", "Assoc-voc", "Bachelors", "Masters", "Prof-school", "Doctorate"}
     p_obs_male_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
     p_obs_female_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
@@ -15,17 +17,18 @@ def weighting_educ(column_mf, column_level):
                     else:
                         p_obs_female_dict["8"] += 1
                 elif int(level[0]) <= 8:
+                    column_level = "8"
                     if gender == "Male":
                         p_obs_male_dict["8"] += 1
                     else:
                         p_obs_female_dict["8"] += 1
+                else:
+                    if gender == "Male":
+                        p_obs_male_dict["11"] += 1
+                    else:
+                        p_obs_female_dict["11"] += 1  
             except:
                 pass
-            else:
-                if gender == "Male":
-                    p_obs_male_dict["11"] += 1
-                else:
-                    p_obs_female_dict["11"] += 1  
         elif level in {"Assoc-acdm", "Assoc-voc"}:
             if gender == "Male":
                 p_obs_male_dict["assoc"] += 1
@@ -113,4 +116,6 @@ def weighting_maritalstatus(column_mf, column_mar):
         weights_female[key]= (exp_f / obs_f)
     
     return weights_male, weights_female
+
+get_data_weights()
     
