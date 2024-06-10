@@ -2,48 +2,25 @@ def weighting_educ(column_mf, column_level):
     #Creating the observed data
     column_level = column_level.copy()
     column_mf = column_mf.copy()
-    possible_levels = {"HS-grad", "Some-college", "Assoc-acdm", "Assoc-voc", "Bachelors", "Masters", "Prof-school", "Doctorate"}
-    p_obs_male_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
-    p_obs_female_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
+    column_level = pre_processing_data_educ(column_level)
+    p_obs_male_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "Assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
+    p_obs_female_dict = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "Assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
     female_ob = 0
     male_ob = 0
-    for i,(level,gender) in enumerate(zip(column_level, column_mf)):
+    for level,gender in zip(column_level, column_mf):
         #Counting all instances per category
-        if not level in possible_levels:
-            try:
-                if level == "Preschool":
-                    if gender == "Male":
-                        p_obs_male_dict["8"] += 1
-                    else:
-                        p_obs_female_dict["8"] += 1
-                elif int(level[0]) <= 8:
-                    column_level = "8"
-                    if gender == "Male":
-                        p_obs_male_dict["8"] += 1
-                    else:
-                        p_obs_female_dict["8"] += 1
-                else:
-                    if gender == "Male":
-                        p_obs_male_dict["11"] += 1
-                    else:
-                        p_obs_female_dict["11"] += 1  
-            except:
-                pass
-        elif level in {"Assoc-acdm", "Assoc-voc"}:
-            if gender == "Male":
-                p_obs_male_dict["assoc"] += 1
-            else:
-                p_obs_female_dict["assoc"] += 1
-        else:
+        try:
             if gender == "Male":
                 p_obs_male_dict[level] += 1
             else:
                 p_obs_female_dict[level] += 1
-        #Counting the amount of men and women
-        if gender == "Male":
-            male_ob += 1
-        else:
-            female_ob += 1
+            #Counting the amount of men and women
+            if gender == "Male":
+                male_ob += 1
+            else:
+                female_ob += 1
+        except:
+            pass
     #Changing the dicts used to count into lists
     total = male_ob + female_ob
     p_obs_male = list(p_obs_male_dict.values())
@@ -78,16 +55,14 @@ def weighting_maritalstatus(column_mf, column_mar):
     male_ob = 0
     for i,(status,gender) in enumerate(zip(column_mar, column_mf)):
         #Counting all instances per category
-        if not status in possible_status:
-            pass
-        else:
-            if status == "Married-civ-spouse" or status == "Married-spouse-absent":
-                status = "Married"
-            
+        #The try is because the column name is the first instance and will fail.
+        try:
             if gender == "Male":
                 p_obs_male_dict[status] += 1
             else:
                 p_obs_female_dict[status] += 1
+        except:
+            pass
         #Counting the amount of men and women
         if gender == "Male":
             male_ob += 1
@@ -117,5 +92,28 @@ def weighting_maritalstatus(column_mf, column_mar):
     
     return weights_male, weights_female
 
-get_data_weights()
-    
+def pre_processing_data_marietal(col_process):
+    col_processed = col_process.copy()
+    for i,(status) in enumerate(col_processed):
+        if status == "Married-civ-spouse" or status == "Married-spouse-absent":
+            col_processed[i] = "Married"
+    return col_processed
+
+def pre_processing_data_educ(col_process):
+    col_processed = col_process.copy()
+    possible_levels = {"HS-grad", "Some-college", "Assoc-acdm", "Assoc-voc", "Bachelors", "Masters", "Prof-school", "Doctorate"}
+    for i,(level) in enumerate(col_processed):
+        #Counting all instances per category
+        if not level in possible_levels:
+            try:
+                if level == "Preschool":
+                    col_processed[i] = "8"
+                elif level == "Preschool" or int(level[0]) <= 8:
+                    col_processed[i] = "8"
+                else:
+                    col_processed[i] = "11"
+            except:
+                pass
+        elif level in {"Assoc-acdm", "Assoc-voc"}:
+             col_processed[i] = "Assoc"
+    return col_processed
