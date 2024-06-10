@@ -28,7 +28,7 @@ def weighting_educ(column_mf, column_level):
                     p_obs_female_dict["11"] += 1  
         elif level in {"Assoc-acdm", "Assoc-voc"}:
             if gender == "Male":
-                    p_obs_male_dict["assoc"] += 1
+                p_obs_male_dict["assoc"] += 1
             else:
                 p_obs_female_dict["assoc"] += 1
         else:
@@ -55,13 +55,13 @@ def weighting_educ(column_mf, column_level):
     p_exp_female = [x /total for x in [3895,	5695,	31383,	16900,	13057,	27853,	13725,	1584,	2203] ]
     
     #calculating the weights by deviding the expected by the observed. The output is in order of the dicts on the first lines of the function.
-    weights_male = []
-    weights_female = []
-    for obs_m, exp_m, obs_f, exp_f in zip(p_obs_male, p_exp_male, p_obs_female, p_exp_female):
-        weights_male.append(exp_m / obs_m)
-        weights_female.append(exp_f / obs_f)
+    weights_male = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
+    weights_female = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
+    for obs_m, exp_m, obs_f, exp_f,key in zip(p_obs_male, p_exp_male, p_obs_female, p_exp_female, p_obs_male_dict):
+        weights_male[key] = (exp_m / obs_m)
+        weights_female[key] = (exp_f / obs_f)
     
-    return p_obs_male_dict.keys(), weights_male, weights_female
+    return weights_male, weights_female
     
 
 #Reweighing for marital status
@@ -106,11 +106,11 @@ def weighting_maritalstatus(column_mf, column_mar):
     p_exp_female = [x /total for x in [41880024,63122995,2963251,16553544,11828945]]
     
     #calculating the weights by deviding the expected by the observed. The output is in order of the dicts on the first lines of the function.
-    weights_male = []
-    weights_female = []
-    for obs_m, exp_m, obs_f, exp_f in zip(p_obs_male, p_exp_male, p_obs_female, p_exp_female):
-        weights_male.append(exp_m / obs_m)
-        weights_female.append(exp_f / obs_f)
+    weights_male = {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
+    weights_female = {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
+    for obs_m, exp_m, obs_f, exp_f, key in zip(p_obs_male, p_exp_male, p_obs_female, p_exp_female, p_obs_male_dict.keys()):
+        weights_male[key]= (exp_m / obs_m)
+        weights_female[key]= (exp_f / obs_f)
     
-    return p_obs_male_dict.keys(), weights_male, weights_female
+    return weights_male, weights_female
     
