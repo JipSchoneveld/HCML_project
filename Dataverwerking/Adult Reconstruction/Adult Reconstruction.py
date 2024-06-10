@@ -2,14 +2,13 @@ import pandas as pd
 
 #read in
 adult_reconstructed = pd.read_csv('adult_reconstruction.csv')
-print(adult_reconstructed.head())
-print(adult_reconstructed[['gender']])
+# print(adult_reconstructed[['gender']])
 
-#explore
-print(adult_reconstructed[['marital-status', 'gender']].value_counts())
-print(adult_reconstructed[['income', 'gender']].value_counts())
-print(adult_reconstructed[['race', 'gender']].value_counts())
-print(adult_reconstructed[['age', 'gender']].value_counts())
+# #explore
+# print(adult_reconstructed[['marital-status', 'gender']].value_counts())
+# print(adult_reconstructed[['income', 'gender']].value_counts())
+# print(adult_reconstructed[['race', 'gender']].value_counts())
+# print(adult_reconstructed[['age', 'gender']].value_counts())
 
 number_of_rows = adult_reconstructed.shape[0]
 
@@ -20,14 +19,46 @@ age_reconstructed = adult_reconstructed['age'].value_counts()
 gender_reconstructed = adult_reconstructed['gender'].value_counts()
 percentage_women_reconstructed = (gender_reconstructed[1]/(gender_reconstructed[1]+gender_reconstructed[0]))*100
 percentage_men_reconstructed = (gender_reconstructed[0]/(gender_reconstructed[1]+gender_reconstructed[0]))*100
-print(percentage_women_reconstructed)
-print(percentage_men_reconstructed)
+
+
+#race demographic
+race_reconstructed = adult_reconstructed['race'].value_counts()
+
+#split income
+income = adult_reconstructed['income']
+high_income_reconstructed = []
+
+for i in income:
+    if i > 50000:
+        high_income_reconstructed.append(1)
+    else:
+        high_income_reconstructed.append(0)
+        
+high_income_reconstructed = pd.DataFrame({'high_income': high_income_reconstructed[:len(adult_reconstructed)]})
+adult_reconstructed['high_income'] = high_income_reconstructed
+
 
 #marital status and income
+ms_income_reconstructed = adult_reconstructed[['marital-status', 'high_income']].value_counts()
+
 
 #gender and income
+gender_income_reconstructed = adult_reconstructed[['gender', 'high_income']].value_counts()
+high_income_female_reconstructed = 100 * gender_income_reconstructed[3]/gender_reconstructed[1]
+high_income_male_reconstructed = 100 * gender_income_reconstructed[2]/gender_reconstructed[0]
 
 #race and income
+race_income_reconstructed = adult_reconstructed[['race', 'high_income']].value_counts()
 
+high_income_white_reconstructed = 100 * race_income_reconstructed[1]/race_reconstructed[0]
+high_income_black_reconstructed = 100 * race_income_reconstructed[4]/race_reconstructed[1]
 
-#transpose age and income to categories?
+#print print print
+print(adult_reconstructed.head())
+print(percentage_women_reconstructed)
+print(percentage_men_reconstructed)
+print(ms_income_reconstructed)
+print(high_income_female_reconstructed)
+print(high_income_male_reconstructed)
+print(high_income_black_reconstructed)
+print(high_income_white_reconstructed)
