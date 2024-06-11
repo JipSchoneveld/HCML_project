@@ -41,7 +41,16 @@ def weighting_educ(column_mf, column_level):
         weights_male[key] = (exp_m / obs_m)
         weights_female[key] = (exp_f / obs_f)
     
-    return weights_male, weights_female
+    weight_educ = []
+    for level,gender in zip(column_level, column_mf):
+        try:
+            if gender == "Male":
+                weight_educ.append(weights_male[level])
+            else:
+                weight_educ.append(weights_female[level])
+        except:
+            pass
+    return weight_educ
     
 
 #Reweighing for marital status
@@ -90,7 +99,17 @@ def weighting_maritalstatus(column_mf, column_mar):
         weights_male[key]= (exp_m / obs_m)
         weights_female[key]= (exp_f / obs_f)
     
-    return weights_male, weights_female
+    weight_marital = []
+    for level,gender in zip(column_level, column_mf):
+        try:
+            if gender == "Male":
+                weight_marital.append(weights_male[level])
+            else:
+                weight_marital.append(weights_female[level])
+        except:
+            pass
+    
+    return weight_marital
 
 def pre_processing_data_marietal(col_process):
     col_processed = col_process.copy()
