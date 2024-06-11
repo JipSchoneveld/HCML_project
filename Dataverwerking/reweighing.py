@@ -100,7 +100,7 @@ def weighting_maritalstatus(column_mf, column_mar):
         weights_female[key]= (exp_f / obs_f)
     
     weight_marital = []
-    for level,gender in zip(column_level, column_mf):
+    for level,gender in zip(column_mar, column_mf):
         try:
             if gender == "Male":
                 weight_marital.append(weights_male[level])
