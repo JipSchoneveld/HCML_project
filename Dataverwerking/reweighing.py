@@ -57,6 +57,9 @@ def weighting_educ(column_mf, column_level):
 #https://www.census.gov/library/visualizations/interactive/marital-status-in-united-states.html
 def weighting_maritalstatus(column_mf, column_mar):
     #Creating the observed data
+    column_mar = column_mar.copy()
+    column_mf = column_mf.copy()
+    column_mar = pre_processing_data_marietal(column_mar)
     possible_status = {"Never-married", "Married-civ-spouse", "Married-spouse-absent", "Separated", "Divorced", "Widowed"}
     p_obs_male_dict = {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
     p_obs_female_dict =  {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
