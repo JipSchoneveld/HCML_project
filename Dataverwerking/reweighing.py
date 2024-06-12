@@ -43,13 +43,12 @@ def weighting_educ(column_mf, column_level):
     
     weight_educ = []
     for level,gender in zip(column_level, column_mf):
-        try:
-            if gender == "Male":
+            if level == "education":
+                pass
+            elif gender == "Male":
                 weight_educ.append(weights_male[level])
             else:
                 weight_educ.append(weights_female[level])
-        except:
-            pass
     return weight_educ
     
 
@@ -104,20 +103,19 @@ def weighting_maritalstatus(column_mf, column_mar):
     
     weight_marital = []
     for level,gender in zip(column_mar, column_mf):
-        try:
-            if gender == "Male":
-                weight_marital.append(weights_male[level])
-            else:
-                weight_marital.append(weights_female[level])
-        except:
+        if level == "marital.status":
             pass
+        elif gender == "Male":
+            weight_marital.append(weights_male[level])
+        else:
+            weight_marital.append(weights_female[level])
     
     return weight_marital
 
 def pre_processing_data_marietal(col_process):
     col_processed = col_process.copy()
     for i,(status) in enumerate(col_processed):
-        if status == "Married-civ-spouse" or status == "Married-spouse-absent":
+        if status[:7] == "Married":
             col_processed[i] = "Married"
     return col_processed
 
