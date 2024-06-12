@@ -2,11 +2,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 #read in
-def read_file(csv_file):
+def read_and_clean_file(csv_file):
     df = pd.read_csv(csv_file)
+    mask = df.applymap(lambda x:'?' in str(x))
+    df_clean = df[~mask.any(axis=1)]
     return df
 
-adult_reconstructed = read_file('adult_reconstruction.csv')
+adult_reconstructed = read_and_clean_file('adult_reconstruction.csv')
 print(adult_reconstructed[['gender']])
 
 # #explore
