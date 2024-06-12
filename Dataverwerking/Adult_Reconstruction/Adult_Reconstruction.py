@@ -6,7 +6,19 @@ def read_and_clean_file(csv_file):
     df = pd.read_csv(csv_file)
     mask = df.applymap(lambda x:'?' in str(x))
     df_clean = df[~mask.any(axis=1)]
-    return df
+    
+    income = df_clean['income']
+    high_income_reconstructed = []
+
+    for i in income:
+        if i > 50000:
+            high_income_reconstructed.append(1)
+        else:
+            high_income_reconstructed.append(0)
+        
+    high_income_reconstructed = pd.DataFrame({'high_income': high_income_reconstructed[:len(df_clean)]})
+    df_clean['high_income'] = high_income_reconstructed
+    return df_clean
 
 adult_reconstructed = read_and_clean_file('adult_reconstruction.csv')
 print(adult_reconstructed[['gender']])
@@ -33,17 +45,17 @@ percentage_men_reconstructed = (gender_reconstructed[0]/(gender_reconstructed[1]
 race_reconstructed = adult_reconstructed['race'].value_counts()
 
 #split income
-income = adult_reconstructed['income']
-high_income_reconstructed = []
+# income = adult_reconstructed['income']
+# high_income_reconstructed = []
 
-for i in income:
-    if i > 50000:
-        high_income_reconstructed.append(1)
-    else:
-        high_income_reconstructed.append(0)
+# for i in income:
+#     if i > 50000:
+#         high_income_reconstructed.append(1)
+#     else:
+#         high_income_reconstructed.append(0)
         
-high_income_reconstructed = pd.DataFrame({'high_income': high_income_reconstructed[:len(adult_reconstructed)]})
-adult_reconstructed['high_income'] = high_income_reconstructed
+# high_income_reconstructed = pd.DataFrame({'high_income': high_income_reconstructed[:len(adult_reconstructed)]})
+# adult_reconstructed['high_income'] = high_income_reconstructed
 
 
 #marital status and income
