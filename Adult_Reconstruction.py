@@ -1,26 +1,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-#read in
-def read_and_clean_file(csv_file):
-    df = pd.read_csv(csv_file)
-    mask = df.applymap(lambda x:'?' in str(x))
-    df_clean = df[~mask.any(axis=1)]
-    
-    income = df_clean['income']
-    high_income_reconstructed = []
+from Dataverwerking.load_data import get_reconstructed_data
 
-    for i in income:
-        if i > 50000:
-            high_income_reconstructed.append(1)
-        else:
-            high_income_reconstructed.append(0)
-        
-    high_income_reconstructed = pd.DataFrame({'high_income': high_income_reconstructed[:len(df_clean)]})
-    df_clean['high_income'] = high_income_reconstructed
-    return df_clean
-
-adult_reconstructed = read_and_clean_file('adult_reconstruction.csv')
+adult_reconstructed = get_reconstructed_data('data/adult_reconstruction.csv')
 print(adult_reconstructed[['gender']])
 
 # #explore
