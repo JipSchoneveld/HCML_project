@@ -23,5 +23,19 @@ def get_old_data(csv_file):
     #removes any rows that contain a '?', maybe do this after selecting the right columns to prevent unnecessary deleting. 
     mask = old_data.applymap(lambda x: '?' in str(x))
     old_data_clean = old_data[~mask.any(axis=1)]
+    for i,(educ,status) in enumerate(zip(old_data_clean["education"], old_data_clean["marital.status"])):
+        if educ == "education":
+            pass
+        elif educ[:4] == "Assoc":
+            old_data_clean["education", i] = "Assoc"
+        elif status[:6] == "Married":
+            old_data_clean.iloc["martial.status", i] = "Married"
+    old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country"])
+    for enum,i in enumerate(old_data_clean["income"]):
+        if i == "<=50K":
+            old_data_clean.loc[enum, "income"] = False
+        else:
+            old_data_clean.loc[enum, "income"] = True
     return old_data_clean
+get_old_data("data\\adult.csv")
 
