@@ -24,12 +24,12 @@ def preprocessing_2018():
     #Creating mapping to the right category
     ACSIncome_categories_mapping = {
         "COW": {
-            'Employee of a private for-profit company orbusiness, or of an individual, for wages,salary, or commissions' : "Private",
-            "Employee of a private not-for-profit, tax-exempt,or charitable organization": "Private",
+            "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions" : "Private",
+            "Employee of a private not-for-profit, tax-exempt, or charitable organization": "Private",
             "Local government employee (city, county, etc.)": "Local-gov",
             "State government employee": "State-gov",
             "Federal government employee": "Federal-gov",
-            "Self-employed in own not incorporated business,professional practice, or farm": "Self-emp-not-inc",
+            "Self-employed in own not incorporated business, professional practice, or farm": "Self-emp-not-inc",
             "Self-employed in own incorporated business, professional practice or farm" : 'Self-emp-inc',
             "Working without pay in family business or farm": "Without-pay",
             "Unemployed and last worked 5 years ago or earlier or never worked": "Error",
@@ -83,26 +83,14 @@ def preprocessing_2018():
     }
     ACSIncome_categories = {
         "COW": {
-            1.0: (
-                "Employee of a private for-profit company or"
-                "business, or of an individual, for wages,"
-                "salary, or commissions"
-            ),
-            2.0: (
-                "Employee of a private not-for-profit, tax-exempt,"
-                "or charitable organization"
-            ),
+            1.0: "Employee of a private for-profit company or business, or of an individual, for wages, salary, or commissions",
+            2.0: "Employee of a private not-for-profit, tax-exempt, or charitable organization",
             3.0: "Local government employee (city, county, etc.)",
             4.0: "State government employee",
             5.0: "Federal government employee",
-            6.0: (
-                "Self-employed in own not incorporated business,"
-                "professional practice, or farm"
-            ),
-            7.0: (
-                "Self-employed in own incorporated business,"
-                "professional practice or farm"
-            ),
+            6.0: "Self-employed in own not incorporated business, professional practice, or farm",
+            7.0: "Self-employed in own incorporated business, professional practice or farm"
+            ,
             8.0: "Working without pay in family business or farm",
             9.0: "Unemployed and last worked 5 years ago or earlier or never worked",
         },
@@ -145,11 +133,7 @@ def preprocessing_2018():
             2.0: "Black or African American alone",
             3.0: "American Indian alone",
             4.0: "Alaska Native alone",
-            5.0: (
-                "American Indian and Alaska Native tribes specified;"
-                "or American Indian or Alaska Native,"
-                "not specified and no other"
-            ),
+            5.0: "American Indian and Alaska Native tribes specified; or American Indian or Alaska Native, not specified and no other",
             6.0: "Asian alone",
             7.0: "Native Hawaiian and Other Pacific Islander alone",
             8.0: "Some Other Race alone",
