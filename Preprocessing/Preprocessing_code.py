@@ -183,7 +183,7 @@ def preprocessing_old(csv_file):
     for i,(educ,status) in enumerate(zip(old_data_clean["education"], old_data_clean["marital.status"])):
         if educ == "education":
             pass
-        elif educ[:4] == "Assoc":
+        elif educ[:5] == "Assoc":
             old_data_clean["education", i] = "Assoc"
         elif status[:6] == "Married":
             old_data_clean.iloc["martial.status", i] = "Married"
