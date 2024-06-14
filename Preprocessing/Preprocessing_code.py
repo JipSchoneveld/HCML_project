@@ -29,7 +29,7 @@ def preprocessing_2018():
             "Local government employee (city, county, etc.)": "Local-gov",
             "State government employee": "State-gov",
             "Federal government employee": "Federal-gov",
-            "Self-employed in own not incorporated business, professional practice, or farm": "Self-emp-not-inc",
+            "Self-employed in own not incorporated business,professional practice, or farm": "Self-emp-not-inc",
             "Self-employed in own incorporated business, professional practice or farm" : 'Self-emp-inc',
             "Working without pay in family business or farm": "Without-pay",
             "Unemployed and last worked 5 years ago or earlier or never worked": "Error",
@@ -179,6 +179,12 @@ def preprocessing_2018():
     ca_features.insert(9, "income", ca_labels, True)
     #Dropping all NaN values
     ca_features = ca_features.dropna(how='any')
+
+    for enum,i in enumerate(ca_features["income"]):
+        if i:
+            ca_features["income"].iloc[enum] = 1
+        else:
+            ca_features["income"].iloc[enum] = 0
     #Writing to the CSV
     ca_features.to_csv('..\\processed_data\data_2018.csv', index=False)
     return ca_features
@@ -200,9 +206,9 @@ def preprocessing_old(csv_file):
     old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country"])
     for enum,i in enumerate(old_data_clean["income"]):
         if i == "<=50K":
-            old_data_clean["income"].iloc[enum] = False
+            old_data_clean["income"].iloc[enum] = 0
         else:
-            old_data_clean["income"].iloc[enum] = True
+            old_data_clean["income"].iloc[enum] = 1
     old_data_clean.to_csv("..\\processed_data\\adult.csv", index=False)
     return old_data_clean
  
