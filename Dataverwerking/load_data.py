@@ -37,5 +37,5 @@ def get_old_data(csv_file):
         else:
             old_data_clean.loc[enum, "income"] = True
     return old_data_clean
-get_old_data("data\\adult.csv")
+
 

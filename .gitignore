@@ -3,3 +3,6 @@ Dataverwerking/Adult_Reconstruction/.vs/Adult Reconstruction/FileContentIndex/fb
 Dataverwerking/.DS_Store
 Dataverwerking/__pycache__/load_data.cpython-311.pyc
 __pycache__/fairness_evals.cpython-311.pyc
+__pycache__/Preprocessing_2018.cpython-311.pyc
+Dataverwerking/__pycache__/data_transform.cpython-311.pyc
+__pycache__/Preprocessing_2018.cpython-311.pyc
