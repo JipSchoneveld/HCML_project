@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-adult_reconstructed = pd.read_csv('data/adult_reconstruction.csv')
+adult_reconstructed = pd.read_csv('..\\preprocessed_data\\data_2018.csv')
 print(adult_reconstructed[['gender']])
 
 # #explore
