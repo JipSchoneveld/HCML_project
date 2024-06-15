@@ -185,7 +185,7 @@ def preprocessing_old(csv_file):
         if educ == "education":
             pass
         elif educ[:5] == "Assoc":
-            old_data_clean["education", i] = "Assoc"
+            old_data_clean.iloc["education", i] = "Assoc"
         elif status[:6] == "Married":
             old_data_clean.iloc["martial.status", i] = "Married"
     old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country"])
