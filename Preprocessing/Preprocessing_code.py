@@ -1,6 +1,7 @@
 import folktables
 from folktables import ACSDataSource
 import numpy as np
+import os 
 
 def preprocessing_2018():
     #Determining which info we want
@@ -170,7 +171,7 @@ def preprocessing_2018():
         else:
             ca_features["income"].iloc[enum] = 0
     #Writing to the CSV
-    ca_features.to_csv('..\\processed_data\data_2018.csv', index=False)
+    ca_features.to_csv(os.path.join('..', 'processed_data', 'data_2018.csv'), index=False)
     return ca_features
 
 
@@ -193,6 +194,6 @@ def preprocessing_old(csv_file):
             old_data_clean["income"].iloc[enum] = 0
         else:
             old_data_clean["income"].iloc[enum] = 1
-    old_data_clean.to_csv("..\\processed_data\\adult.csv", index=False)
+    old_data_clean.to_csv(os.path.join('..', 'processed_data', 'adult.csv'), index=False)
     return old_data_clean
  
