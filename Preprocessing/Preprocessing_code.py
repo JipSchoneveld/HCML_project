@@ -73,9 +73,7 @@ def preprocessing_2018():
             "Black or African American alone": "Black",
             "American Indian alone": 'Amer-Indian-Eskimo',
             "Alaska Native alone": 'Amer-Indian-Eskimo',
-            "American Indian and Alaska Native tribes specified;" : 'Amer-Indian-Eskimo',
-            "or American Indian or Alaska Native," : 'Amer-Indian-Eskimo',
-            "not specified and no other" : 'Amer-Indian-Eskimo',
+            "American Indian and Alaska Native tribes specified; or American Indian or Alaska Native, not specified and no other" : 'Amer-Indian-Eskimo',
             "Asian alone": 'Asian-Pac-Islander',
             "Native Hawaiian and Other Pacific Islander alone": 'Asian-Pac-Islander', #Klopt dit met hawaii?
             "Some Other Race alone": "Other",
@@ -161,7 +159,8 @@ def preprocessing_2018():
             except:
                 pass
     ca_features = ca_features.rename(columns={"AGEP": "age", "COW": "workclass", "SCHL": "education", "MAR": "marital.status", "OCCP": "occupation", "RELP": "relationship", "WKHP": "hours.per.week", "SEX": "sex", "RAC1P": "race"}, errors="Raise")
-    ca_features.insert(9, "income", ca_labels, True)
+    ca_features = ca_features.drop(columns=["occupation", "relationship"])
+    ca_features.insert(7, "income", ca_labels, True)
     #Dropping all NaN values
     ca_features = ca_features.dropna(how='any')
 
@@ -185,10 +184,10 @@ def preprocessing_old(csv_file):
         if educ == "education":
             pass
         elif educ[:5] == "Assoc":
-            old_data_clean.iloc["education", i] = "Assoc"
-        elif status[:6] == "Married":
-            old_data_clean.iloc["martial.status", i] = "Married"
-    old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country"])
+            old_data_clean["education"].iloc[i] = "Assoc"
+        elif status[:7] == "Married":
+            old_data_clean["marital.status"].iloc[i] = "Married"
+    old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country", "occupation", "relationship"])
     for enum,i in enumerate(old_data_clean["income"]):
         if i == "<=50K":
             old_data_clean["income"].iloc[enum] = 0
