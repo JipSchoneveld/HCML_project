@@ -141,7 +141,7 @@ def preprocessing_2018():
     }
     #Getting data from folktables
     data_source = ACSDataSource(survey_year='2018', horizon='1-Year', survey='person')
-    ca_data = data_source.get_data(download=True)
+    ca_data = data_source.get_data()
 
     ca_features, ca_labels, _ = ACSIncome.df_to_pandas(ca_data, categories=ACSIncome_categories, dummies=False)
     
