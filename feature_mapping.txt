@@ -13,3 +13,4 @@ cpaital.loss = --
 hours.per.week = WKHP
 native.country = -- (POBP)
 income = PINCP 
+capital.gain, capital.loss = INTP
