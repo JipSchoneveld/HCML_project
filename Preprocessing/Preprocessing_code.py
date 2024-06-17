@@ -187,7 +187,7 @@ def preprocessing_old(csv_file):
             old_data_clean["education"].iloc[i] = "Assoc"
         elif status[:7] == "Married":
             old_data_clean["marital.status"].iloc[i] = "Married"
-    old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country", "relationship"])
+    old_data_clean =old_data_clean.drop(columns=["fnlwgt", "education.num", "capital.gain", "capital.loss", "native.country", "occupation", "relationship"])
     for enum,i in enumerate(old_data_clean["income"]):
         if i == "<=50K":
             old_data_clean["income"].iloc[enum] = 0
