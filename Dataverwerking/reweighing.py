@@ -163,4 +163,6 @@ def getweights(path):
             status.append(row[3])
     column_educ = weighting_educ(gender, educ)
     column_marital = weighting_maritalstatus(gender, status)
-    return gemiddelde(column_educ, column_marital)
+    return column_marital
+    #return gemiddelde(column_educ, column_marital)
+    #return [x*y for (x,y) in zip(column_educ, column_marital)]
