@@ -141,3 +141,26 @@ def pre_processing_data_educ(col_process):
         elif level in {"Assoc-acdm", "Assoc-voc"}:
              col_processed[i] = "Assoc"
     return col_processed
+
+
+
+import os 
+import csv
+
+def gemiddelde(col_A, col_B):
+    return [(a+b)/2 for a,b in zip(col_A, col_B)]
+
+def getweights():
+    gender = []
+    educ = []
+    status = []
+    with open(os.path.join("..","Processed_data",'adult.csv'), newline='') as data:
+        spamreader = csv.reader(data, delimiter=',')
+        for row in spamreader:
+            #[1:-1] because the words look like this: "'word'"
+            educ.append(row[2])
+            gender.append(row[5])
+            status.append(row[3])
+    column_educ = weighting_educ(gender, educ)
+    column_marital = weighting_maritalstatus(gender, status)
+    return gemiddelde(column_educ, column_marital)
