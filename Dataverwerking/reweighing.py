@@ -29,10 +29,10 @@ def weighting_educ(column_mf, column_level):
     p_obs_female = [x  / total for x in p_obs_female]
     
     #Calculating expected data using data from:
-    #https://www.census.gov/data/tables/2022/demo/educational-attainment/cps-detailed-tables.html
-    total =  226274
-    p_exp_male = [x /total for x in [4041,	6303,	33081,	16085,	10616,	25192,	10156,	1860,	2644] ]
-    p_exp_female = [x /total for x in [3895,	5695,	31383,	16900,	13057,	27853,	13725,	1584,	2203] ]
+    #https://www.census.gov/data/tables/2018/demo/education-attainment/cps-detailed-tables.html
+    total =  249193
+    p_exp_male = [x /total for x in [4453,	9306,	36274,	22096,	10489,	24379,	9294,	1800,	2614] ]
+    p_exp_female = [x /total for x in [4658,	8756,	35094,	24079,	13613,	27027,	11987,	1401,	1872] ]
     
     #calculating the weights by deviding the expected by the observed. The output is in order of the dicts on the first lines of the function.
     weights_male = {"8":0, "11":0, "HS-grad": 0, "Some-college": 0, "assoc": 0, "Bachelors": 0, "Masters": 0, "Prof-school": 0, "Doctorate": 0}
