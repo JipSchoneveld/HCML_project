@@ -94,6 +94,7 @@ def weighting_maritalstatus(column_mf, column_mar):
     total = male + female 
     #The amount of people per group divide by total for expected, done the same as observed on different data.
     # Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
+    # https://data.census.gov/table/ACSST1Y2018.S1201?t=Marital%20Status%20and%20Marital%20History&y=2018
     p_exp_male = [x /total for x in [0.355 * male, 0.531 * male, 0.016 * male, 0.089 * male, 0.009 * male] ]
     p_exp_female = [x /total for x in [0.342 * female, 0.475 * female, 0.025 * female, 0.130 * female, 0.027 * female]]
     
