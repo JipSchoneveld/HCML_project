@@ -87,12 +87,15 @@ def weighting_maritalstatus(column_mf, column_mar):
     p_obs_female = [x  / total for x in p_obs_female]
 
     #Calculating expected data using data from:
-    male = 129973543
-    female = 136348759
+    male = 87398131
+    # percent_male = {"Never-married": 35.5, "Married": 53.1, "Separated": 1.6, "Divorced": 8.9, "Widowed": 0.9}
+    female = 78509396
+    # percent_female = {"Never-married": 34.2, "Married": 47.5, "Separated": 2.5, "Divorced": 13.0, "Widowed": 2.7}
     total = male + female 
     #The amount of people per group divide by total for expected, done the same as observed on different data.
-    p_exp_male = [x /total for x in [48052364,64057452,2071170,12365418, 3427139] ]
-    p_exp_female = [x /total for x in [41880024,63122995,2963251,16553544,11828945]]
+    # Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
+    p_exp_male = [x /total for x in [0.355 * male, 0.531 * male, 0.016 * male, 0.089 * male, 0.009 * male] ]
+    p_exp_female = [x /total for x in [0.342 * female, 0.475 * female, 0.025 * female, 0.130 * female, 0.027 * female]]
     
     #calculating the weights by deviding the expected by the observed. The output is in order of the dicts on the first lines of the function.
     weights_male = {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}
