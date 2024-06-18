@@ -150,11 +150,11 @@ import csv
 def gemiddelde(col_A, col_B):
     return [(a+b)/2 for a,b in zip(col_A, col_B)]
 
-def getweights():
+def getweights(path):
     gender = []
     educ = []
     status = []
-    with open(os.path.join("..","Processed_data",'adult.csv'), newline='') as data:
+    with open(os.path.join(path), newline='') as data:
         spamreader = csv.reader(data, delimiter=',')
         for row in spamreader:
             #[1:-1] because the words look like this: "'word'"
