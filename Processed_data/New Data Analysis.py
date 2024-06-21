@@ -360,6 +360,7 @@ male_percentages_old = [
 
 # Create the grouped bar graph
 from matplotlib import style
+import os
 bar_width = 0.18
 index = np.arange(len(education_levels))
 style.use("Solarize_Light2")
@@ -384,7 +385,10 @@ plt.legend()
 
 # Display the bar graph
 plt.tight_layout()
+plt.savefig(os.path.join("..", "plots", 'data_analysis_educ'))
 plt.show()
+
+
 
 #print print print
 # print(adult_old.head())
