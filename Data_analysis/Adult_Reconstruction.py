@@ -3,7 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-adult_reconstructed = pd.read_csv(os.path.join('..','preprocessed_data','data_2018.csv'))
+adult_reconstructed = pd.read_csv(os.path.join('..','processed_data','data_2018.csv'))
 print(adult_reconstructed[['gender']])
 
 # #explore

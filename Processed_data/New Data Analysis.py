@@ -7,6 +7,7 @@ def read_file(csv_file):
     return df
 
 adult_reconstructed = read_file('data_2018.csv')
+adult_old = read_file('adult.csv')
 print(adult_reconstructed[['sex']])
 
 # #explore
@@ -186,20 +187,196 @@ male_percentages = [
     education_sex_associate_degree_male_reconstructed
 ]
 
+#For old data
+number_of_rows = adult_old.shape[0]
+
+#age demographic
+age_old = adult_old['age'].value_counts()
+
+#gender demographic
+gender_old = adult_old['sex'].value_counts()
+percentage_women_old = (gender_old[1]/(gender_old[1]+gender_old[0]))*100
+percentage_men_old = (gender_old[0]/(gender_old[1]+gender_old[0]))*100
+
+#income demographic
+income_old = adult_old['income'].value_counts()
+percentage_high_old =  income_old[1]/(income_old[0]+income_old[1])*100
+percentage_low_old = income_old[0]/(income_old[0]+income_old[1])*100
+
+#race demographic
+race_old = adult_old['race'].value_counts()
+
+#split income
+# income = adult_old['income']
+# high_income_old = []
+
+# for i in income:
+#     if i > 50000:
+#         high_income_old.append(1)
+#     else:
+#         high_income_old.append(0)
+        
+# high_income_old = pd.DataFrame({'high_income': high_income_old[:len(adult_old)]})
+# adult_old['high_income'] = high_income_old
+
+
+#marital status and income
+ms_income_old = adult_old[['marital.status', 'income']].value_counts()
+high_income_married_old = 100 * ms_income_old[1]/(ms_income_old[0] + ms_income_old[1])
+high_income_never_married_old = 100 * ms_income_old[4]/(ms_income_old[4] + ms_income_old[2])
+high_income_divorced_old = 100 * ms_income_old[5]/(ms_income_old[3] + ms_income_old[5])
+high_income_separated_old = 100 * ms_income_old[9]/(ms_income_old[9] + ms_income_old[7])
+high_income_widowed_old = 100 * ms_income_old[8]/(ms_income_old[8] + ms_income_old[6])
+
+#non-high-income percentages
+non_high_income_married_old = 100 - high_income_married_old
+non_high_income_never_married_old = 100 - high_income_never_married_old
+non_high_income_divorced_old = 100 - high_income_divorced_old
+non_high_income_separated_old = 100 - high_income_separated_old
+non_high_income_widowed_old = 100 - high_income_widowed_old
+
+#marital status, sex and income
+ms_sex_income_old = adult_old[['marital.status', 'sex', 'income']].value_counts()
+high_income_married_female_old = 100 * ms_sex_income_old[5]/(ms_sex_income_old[5] + ms_sex_income_old[1])
+high_income_never_married_female_old = 100 * ms_sex_income_old[9]/(ms_sex_income_old[9] + ms_sex_income_old[4])
+high_income_divorced_female_old = 100 * ms_sex_income_old[10]/(ms_sex_income_old[10] + ms_sex_income_old[6])
+high_income_separated_female_old = 100 * ms_sex_income_old[19]/(ms_sex_income_old[19] + ms_sex_income_old[13])
+high_income_widowed_female_old = 100 * ms_sex_income_old[14]/(ms_sex_income_old[14] + ms_sex_income_old[12])
+
+high_income_married_male_old = 100 * ms_sex_income_old[0]/(ms_sex_income_old[0] + ms_sex_income_old[3])
+high_income_never_married_male_old = 100 * ms_sex_income_old[7]/(ms_sex_income_old[7] + ms_sex_income_old[2])
+high_income_divorced_male_old = 100 * ms_sex_income_old[11]/(ms_sex_income_old[11] + ms_sex_income_old[8])
+high_income_separated_male_old = 100 * ms_sex_income_old[18]/(ms_sex_income_old[18] + ms_sex_income_old[15])
+high_income_widowed_male_old = 100 * ms_sex_income_old[17]/(ms_sex_income_old[17] + ms_sex_income_old[16])
+
+
+#gender and income
+gender_income_old = adult_old[['sex', 'income']].value_counts()
+high_income_female_old = 100 * gender_income_old[3]/gender_old[1]
+high_income_male_old = 100 * gender_income_old[2]/gender_old[0]
+
+#race and income
+# race_income_old = adult_old[['race', 'income']].value_counts()
+
+# high_income_white_old = 100 * race_income_old[1]/race_old[0]
+# high_income_black_old = 100 * race_income_old[4]/race_old[1]
+
+#education and income
+education_income_old = adult_old[['education', 'income']].value_counts()
+high_income_HS_old = 100 * education_income_old[7]/(education_income_old[7] + education_income_old[0])
+high_income_bachelors_old = 100 * education_income_old[2]/(education_income_old[2] + education_income_old[3])
+high_income_masters_old = 100 * education_income_old[4]/(education_income_old[4] + education_income_old[9])
+high_income_doctorate_old = 100 * education_income_old[13]/(education_income_old[13] + education_income_old[20])
+high_income_associate_degree_old = 100 * education_income_old[8]/(education_income_old[8] + education_income_old[5])
+
+# Calculate the percentages
+# high_income_HS_old = 100 * education_income_old[7] / (education_income_old[7] + education_income_old[0])
+# high_income_bachelors_old = 100 * education_income_old[2] / (education_income_old[2] + education_income_old[3])
+# high_income_masters_old = 100 * education_income_old[4] / (education_income_old[4] + education_income_old[9])
+# high_income_doctorate_old = 100 * education_income_old[13] / (education_income_old[13] + education_income_old[20])
+# high_income_associate_degree_old = 100 * education_income_old[8] / (education_income_old[8] + education_income_old[5])
+
+
+# non_high_income_HS_old = 100 - high_income_HS_old
+# non_high_income_bachelors_old = 100 - high_income_bachelors_old
+# non_high_income_masters_old = 100 - high_income_masters_old
+# non_high_income_doctorate_old = 100 - high_income_doctorate_old
+# non_high_income_associate_degree_old = 100 - high_income_associate_degree_old
+
+#education, sex and income
+education_sex_income_old = adult_old[['education', 'sex', 'income']].value_counts()
+
+#women
+high_income_HS_female_old = 100 * education_sex_income_old[18]/(education_sex_income_old[18] + education_sex_income_old[2])
+high_income_bachelors_female_old = 100 * education_sex_income_old[6]/(education_sex_income_old[6] + education_sex_income_old[5])
+high_income_masters_female_old = 100 * education_sex_income_old[12]/(education_sex_income_old[12] + education_sex_income_old[14])
+high_income_doctorate_female_old = 100 * education_sex_income_old[28]/(education_sex_income_old[28] + education_sex_income_old[41])
+high_income_associate_female_degree_old = 100 * education_sex_income_old[17]/(education_sex_income_old[17] + education_sex_income_old[10])
+
+#men
+high_income_HS_male_old = 100 * education_sex_income_old[8]/(education_sex_income_old[8] + education_sex_income_old[0])
+high_income_bachelors_male_old = 100 * education_sex_income_old[4]/(education_sex_income_old[4] + education_sex_income_old[9])
+high_income_masters_male_old = 100 * education_sex_income_old[11]/(education_sex_income_old[11] + education_sex_income_old[21])
+high_income_doctorate_male_old = 100 * education_sex_income_old[25]/(education_sex_income_old[25] + education_sex_income_old[42])
+high_income_associate_degree_male_old = 100 * education_sex_income_old[15]/(education_sex_income_old[15] + education_sex_income_old[13])
+# print(education_sex_income_old)
+
+#education and sex
+education_sex_old = adult_old[['education', 'sex']].value_counts()
+
+#women
+education_sex_HS_female_old = 100* education_sex_old[5]/(education_sex_old[0] + education_sex_old[5])
+education_sex_bachelors_female_old = 100* education_sex_old[2]/(education_sex_old[4] + education_sex_old[2])
+education_sex_masters_female_old =100* education_sex_old[6]/(education_sex_old[8] + education_sex_old[6])
+education_sex_doctorate_female_old = 100* education_sex_old[16]/(education_sex_old[14] + education_sex_old[16])
+education_sex_associate_degree_female_old = 100* education_sex_old[7]/(education_sex_old[9] + education_sex_old[7])
+
+#men
+education_sex_HS_male_old = 100* education_sex_old[0]/(education_sex_old[0] + education_sex_old[5])
+education_sex_bachelors_male_old = 100* education_sex_old[4]/(education_sex_old[4] + education_sex_old[2])
+education_sex_masters_male_old = 100* education_sex_old[8]/(education_sex_old[8] + education_sex_old[6])
+education_sex_doctorate_male_old = 100* education_sex_old[14]/(education_sex_old[14] + education_sex_old[16])
+education_sex_associate_degree_male_old = 100* education_sex_old[9]/(education_sex_old[9] + education_sex_old[7])
+
+print(education_sex_old)
+
+#create bar graphs
+
+# age_range = pd.Series(index=range(91), dtype=int)
+# age_old = age_old.reindex(age_range.index, fill_value=0)
+# age_old_non_zero = age_old[age_old > 0]
+
+# age_old_non_zero.plot(kind= 'bar')
+# plt.title('Age Distribution')
+# plt.xlabel('Age')
+# plt.ylabel('Frequency')
+# plt.xticks(rotation=0)
+
+# education_income_old.plot(kind='bar')
+# plt.title('Education and Income')
+
+
+
+# plt.show()
+
+# Prepare the data for plotting
+education_levels = ['High School', 'Bachelors', 'Masters', 'Doctorate', 'Associate Degree']
+# Organize the data into lists
+female_percentages_old= [
+    education_sex_HS_female_old,
+    education_sex_bachelors_female_old,
+    education_sex_masters_female_old,
+    education_sex_doctorate_female_old,
+    education_sex_associate_degree_female_old
+]
+
+male_percentages_old = [
+    education_sex_HS_male_old,
+    education_sex_bachelors_male_old,
+    education_sex_masters_male_old,
+    education_sex_doctorate_male_old,
+    education_sex_associate_degree_male_old
+]
+
 # Create the grouped bar graph
-bar_width = 0.35
+from matplotlib import style
+bar_width = 0.18
 index = np.arange(len(education_levels))
+style.use("Solarize_Light2")
 
 plt.figure(figsize=(10, 6))
 
-# Plot bars for females
-plt.bar(index - bar_width/2, female_percentages, bar_width, label='Female', color='pink')
-
 # Plot bars for males
-plt.bar(index + bar_width/2, male_percentages, bar_width, label='Male', color='lightblue')
+plt.bar(index + bar_width/2, male_percentages_old, bar_width, label='Old Male', color='darkgreen')
+
+plt.bar(index + bar_width /2 + bar_width, male_percentages, bar_width, label='2018 Male', color='yellowgreen')
+plt.bar(index - bar_width/2 -bar_width, female_percentages_old, bar_width, label='Old Female', color='rebeccapurple')
+
+
+plt.bar(index - bar_width/2, female_percentages, bar_width, label='2018 Female', color='plum')
 
 # Add title and labels
-plt.title('Percentage Distribution of Education Levels by Sex')
+plt.title('Percentage Distribution of Education Levels by Sex for 2018 data')
 plt.xlabel('Education Level')
 plt.ylabel('Percentage (%)')
 plt.xticks(index, education_levels)
@@ -210,7 +387,7 @@ plt.tight_layout()
 plt.show()
 
 #print print print
-# print(adult_reconstructed.head())
+# print(adult_old.head())
 # print(percentage_women_reconstructed)
 # print(percentage_men_reconstructed)
 # print(ms_income_reconstructed)
