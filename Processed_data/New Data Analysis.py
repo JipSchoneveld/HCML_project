@@ -302,24 +302,36 @@ high_income_associate_degree_male_old = 100 * education_sex_income_old[15]/(educ
 # print(education_sex_income_old)
 
 #education and sex
+
 education_sex_old = adult_old[['education', 'sex']].value_counts()
-
-#women
-education_sex_HS_female_old = 100* education_sex_old[5]/(education_sex_old[0] + education_sex_old[5])
-education_sex_bachelors_female_old = 100* education_sex_old[2]/(education_sex_old[4] + education_sex_old[2])
-education_sex_masters_female_old =100* education_sex_old[6]/(education_sex_old[8] + education_sex_old[6])
-education_sex_doctorate_female_old = 100* education_sex_old[16]/(education_sex_old[14] + education_sex_old[16])
-education_sex_associate_degree_female_old = 100* education_sex_old[7]/(education_sex_old[9] + education_sex_old[7])
-
-#men
-education_sex_HS_male_old = 100* education_sex_old[0]/(education_sex_old[0] + education_sex_old[5])
-education_sex_bachelors_male_old = 100* education_sex_old[4]/(education_sex_old[4] + education_sex_old[2])
-education_sex_masters_male_old = 100* education_sex_old[8]/(education_sex_old[8] + education_sex_old[6])
-education_sex_doctorate_male_old = 100* education_sex_old[14]/(education_sex_old[14] + education_sex_old[16])
-education_sex_associate_degree_male_old = 100* education_sex_old[9]/(education_sex_old[9] + education_sex_old[7])
-
 print(education_sex_old)
+values_educ_old = {"Male": {}, "Female": {}}
+for sex in adult_old["sex"].unique():
+    total = sum(education_sex_old[:,sex])
+    for edu in adult_old["education"].unique():
+        values_educ_old[sex][edu] = 100* education_sex_old[edu][sex]/(total)
 
+values_educ_reconstructed = {"Male": {}, "Female": {}}
+for sex in adult_reconstructed["sex"].unique():
+    total = sum(education_sex_reconstructed[:,sex])
+    for edu in adult_old["education"].unique():
+        values_educ_reconstructed[sex][edu] = 100* education_sex_reconstructed[edu][sex]/(total)
+
+
+#marital status and sex
+marital_sex_old = adult_old[['marital.status', 'sex']].value_counts()
+values_mar_old = {"Male": {}, "Female": {}}
+for sex in adult_old["sex"].unique():
+    total = sum(marital_sex_old[:,sex])
+    for mar in adult_old["marital.status"].unique():
+        values_mar_old[sex][mar] = 100* marital_sex_old[mar][sex]/(total)
+
+marital_sex_reconstructed = adult_reconstructed[['marital.status', 'sex']].value_counts()
+values_mar_reconstructed = {"Male": {}, "Female": {}}
+for sex in adult_reconstructed["sex"].unique():
+    total = sum(marital_sex_reconstructed[:,sex])
+    for mar in adult_old["marital.status"].unique():
+        values_mar_reconstructed[sex][mar] = 100* marital_sex_reconstructed[mar][sex]/(total)
 #create bar graphs
 
 # age_range = pd.Series(index=range(91), dtype=int)
@@ -338,49 +350,33 @@ print(education_sex_old)
 
 
 # plt.show()
-
-# Prepare the data for plotting
-education_levels = ['High School', 'Bachelors', 'Masters', 'Doctorate', 'Associate Degree']
-# Organize the data into lists
-female_percentages_old= [
-    education_sex_HS_female_old,
-    education_sex_bachelors_female_old,
-    education_sex_masters_female_old,
-    education_sex_doctorate_female_old,
-    education_sex_associate_degree_female_old
-]
-
-male_percentages_old = [
-    education_sex_HS_male_old,
-    education_sex_bachelors_male_old,
-    education_sex_masters_male_old,
-    education_sex_doctorate_male_old,
-    education_sex_associate_degree_male_old
-]
-
 # Create the grouped bar graph
 from matplotlib import style
 import os
 bar_width = 0.18
-index = np.arange(len(education_levels))
+
 style.use("Solarize_Light2")
-
+values_male = [value for _, value in values_educ_old['Male'].items() ]
+labels_male = ['Preschool', '1st-4th', '5th-6th','7th-8th', '9th', '10th' ,'11th','12th', 'HS-grad','Assoc', 'Some-college',  'Bachelors','Masters','Prof-school', 'Doctorate']
+#labels_male = [value for value,_ in values_educ_old['Male'].items() ]
+values_female = [value for _, value in values_educ_old['Female'].items() ]
+values_male_new = [value for _, value in values_educ_reconstructed['Male'].items() ]
+values_female_new = [value for _, value in values_educ_reconstructed['Female'].items() ]
+index = np.arange(len(labels_male))
+print(labels_male)
 plt.figure(figsize=(10, 6))
-
 # Plot bars for males
-plt.bar(index + bar_width/2, male_percentages_old, bar_width, label='Old Male', color='darkgreen')
+plt.bar(index + bar_width/2, values_male, bar_width, label='Old, Male', color='sienna')
 
-plt.bar(index + bar_width /2 + bar_width, male_percentages, bar_width, label='2018 Male', color='yellowgreen')
-plt.bar(index - bar_width/2 -bar_width, female_percentages_old, bar_width, label='Old Female', color='rebeccapurple')
-
-
-plt.bar(index - bar_width/2, female_percentages, bar_width, label='2018 Female', color='plum')
+plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='2018, Male', color='darksalmon')
+plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
+plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='mistyrose')
 
 # Add title and labels
-plt.title('Percentage Distribution of Education Levels by Sex for 2018 data')
+plt.title('Percentage Distribution of Education Levels by Sex')
 plt.xlabel('Education Level')
-plt.ylabel('Percentage (%)')
-plt.xticks(index, education_levels)
+plt.ylabel('Percentage per sex (%)')
+plt.xticks(index, labels=labels_male, rotation=45)
 plt.legend()
 
 # Display the bar graph
@@ -388,16 +384,31 @@ plt.tight_layout()
 plt.savefig(os.path.join("..", "plots", 'data_analysis_educ'))
 plt.show()
 
+#marital status
+values_male = [value for _, value in values_mar_old['Male'].items() ]
+labels_male = ["Never-married", "Married", "Separated", "Divorced", "Widowed"]
+#labels_male = [value for value,_ in values_educ_old['Male'].items() ]
+values_female = [value for _, value in values_mar_old['Female'].items() ]
+values_male_new = [value for _, value in values_mar_reconstructed['Male'].items() ]
+values_female_new = [value for _, value in values_mar_reconstructed['Female'].items() ]
+index = np.arange(len(labels_male))
+print(labels_male)
+plt.figure(figsize=(10, 6))
+# Plot bars for males
+plt.bar(index + bar_width/2, values_male, bar_width, label='Old, Male', color='sienna')
 
+plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='2018, Male', color='darksalmon')
+plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
+plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='mistyrose')
 
-#print print print
-# print(adult_old.head())
-# print(percentage_women_reconstructed)
-# print(percentage_men_reconstructed)
-# print(ms_income_reconstructed)
-# print(education_income_reconstructed)
-# print(high_income_female_reconstructed)
-# print(high_income_male_reconstructed)
-# print(high_income_black_reconstructed)
-# print(high_income_white_reconstructed)
-# print(gender_income_reconstructed)
+# Add title and labels
+plt.title('Percentage Distribution of marital status by Sex')
+plt.xlabel('Education Level')
+plt.ylabel('Percentage per sex (%)')
+plt.xticks(index, labels=labels_male, rotation=45)
+plt.legend()
+
+# Display the bar graph
+plt.tight_layout()
+plt.savefig(os.path.join("..", "plots", 'data_analysis_mar'))
+plt.show()
