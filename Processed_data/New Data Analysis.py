@@ -305,13 +305,13 @@ high_income_associate_degree_male_old = 100 * education_sex_income_old[15]/(educ
 
 education_sex_old = adult_old[['education', 'sex']].value_counts()
 print(education_sex_old)
-values_educ_old = {"Male": {}, "Female": {}}
+values_educ_old = {"Male": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}, "Female": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}}
 for sex in adult_old["sex"].unique():
     total = sum(education_sex_old[:,sex])
     for edu in adult_old["education"].unique():
         values_educ_old[sex][edu] = 100* education_sex_old[edu][sex]/(total)
 
-values_educ_reconstructed = {"Male": {}, "Female": {}}
+values_educ_reconstructed = {"Male": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}, "Female": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}}
 for sex in adult_reconstructed["sex"].unique():
     total = sum(education_sex_reconstructed[:,sex])
     for edu in adult_old["education"].unique():
@@ -356,9 +356,9 @@ import os
 bar_width = 0.18
 
 style.use("Solarize_Light2")
+#['Preschool', '1st-4th', '5th-6th','7th-8th', '9th', '10th' ,'11th','12th', 'HS-grad','Assoc', 'Some-college',  'Bachelors','Masters','Prof-school', 'Doctorate']
 values_male = [value for _, value in values_educ_old['Male'].items() ]
-labels_male = ['Preschool', '1st-4th', '5th-6th','7th-8th', '9th', '10th' ,'11th','12th', 'HS-grad','Assoc', 'Some-college',  'Bachelors','Masters','Prof-school', 'Doctorate']
-#labels_male = [value for value,_ in values_educ_old['Male'].items() ]
+labels_male = [value for value,_ in values_educ_old['Male'].items() ]
 values_female = [value for _, value in values_educ_old['Female'].items() ]
 values_male_new = [value for _, value in values_educ_reconstructed['Male'].items() ]
 values_female_new = [value for _, value in values_educ_reconstructed['Female'].items() ]
@@ -370,7 +370,7 @@ plt.bar(index + bar_width/2, values_male, bar_width, label='Old, Male', color='s
 
 plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='2018, Male', color='darksalmon')
 plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
-plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='mistyrose')
+plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='lightpink')
 
 # Add title and labels
 plt.title('Percentage Distribution of Education Levels by Sex')
@@ -386,8 +386,7 @@ plt.show()
 
 #marital status
 values_male = [value for _, value in values_mar_old['Male'].items() ]
-labels_male = ["Never-married", "Married", "Separated", "Divorced", "Widowed"]
-#labels_male = [value for value,_ in values_educ_old['Male'].items() ]
+labels_male = [value for value,_ in values_mar_old['Male'].items() ]
 values_female = [value for _, value in values_mar_old['Female'].items() ]
 values_male_new = [value for _, value in values_mar_reconstructed['Male'].items() ]
 values_female_new = [value for _, value in values_mar_reconstructed['Female'].items() ]
@@ -399,7 +398,7 @@ plt.bar(index + bar_width/2, values_male, bar_width, label='Old, Male', color='s
 
 plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='2018, Male', color='darksalmon')
 plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
-plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='mistyrose')
+plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='lightpink')
 
 # Add title and labels
 plt.title('Percentage Distribution of marital status by Sex')
