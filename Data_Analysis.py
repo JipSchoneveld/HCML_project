@@ -1,13 +1,14 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 #read in
 def read_file(csv_file):
     df = pd.read_csv(csv_file)
     return df
 
-adult_reconstructed = read_file('data_2018.csv')
-adult_old = read_file('adult.csv')
+adult_reconstructed = read_file(os.path.join('Processed_data', 'data_2018.csv'))
+adult_old = read_file(os.path.join('Processed_data', 'adult.csv'))
 print(adult_reconstructed[['sex']])
 
 # #explore
@@ -304,7 +305,7 @@ high_income_associate_degree_male_old = 100 * education_sex_income_old[15]/(educ
 #education and sex
 
 education_sex_old = adult_old[['education', 'sex']].value_counts()
-print(education_sex_old)
+#print(education_sex_old)
 values_educ_old = {"Male": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}, "Female": {'Preschool':0, '1st-4th':0, '5th-6th':0,'7th-8th':0, '9th':0, '10th':0 ,'11th':0,'12th':0, 'HS-grad':0,'Assoc':0, 'Some-college':0,  'Bachelors':0,'Masters':0,'Prof-school':0, 'Doctorate':0}}
 for sex in adult_old["sex"].unique():
     total = sum(education_sex_old[:,sex])
@@ -320,14 +321,14 @@ for sex in adult_reconstructed["sex"].unique():
 
 #marital status and sex
 marital_sex_old = adult_old[['marital.status', 'sex']].value_counts()
-values_mar_old = {"Male": {}, "Female": {}}
+values_mar_old = {"Male":  {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}, "Female":  {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}}
 for sex in adult_old["sex"].unique():
     total = sum(marital_sex_old[:,sex])
     for mar in adult_old["marital.status"].unique():
         values_mar_old[sex][mar] = 100* marital_sex_old[mar][sex]/(total)
 
 marital_sex_reconstructed = adult_reconstructed[['marital.status', 'sex']].value_counts()
-values_mar_reconstructed = {"Male": {}, "Female": {}}
+values_mar_reconstructed = {"Male":  {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}, "Female":  {"Never-married": 0, "Married": 0, "Separated": 0, "Divorced": 0, "Widowed": 0}}
 for sex in adult_reconstructed["sex"].unique():
     total = sum(marital_sex_reconstructed[:,sex])
     for mar in adult_old["marital.status"].unique():
@@ -352,10 +353,9 @@ for sex in adult_reconstructed["sex"].unique():
 # plt.show()
 # Create the grouped bar graph
 from matplotlib import style
-import os
 bar_width = 0.18
 
-style.use("Solarize_Light2")
+style.use("ggplot")
 #['Preschool', '1st-4th', '5th-6th','7th-8th', '9th', '10th' ,'11th','12th', 'HS-grad','Assoc', 'Some-college',  'Bachelors','Masters','Prof-school', 'Doctorate']
 values_male = [value for _, value in values_educ_old['Male'].items() ]
 labels_male = [value for value,_ in values_educ_old['Male'].items() ]
@@ -372,6 +372,10 @@ plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='201
 plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
 plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='lightpink')
 
+#Add demographic data 
+plt.scatter(index + bar_width/2+ bar_width, [3.689159521146597/4, 3.689159521146597/4, 3.689159521146597/4, 3.689159521146597/4, 7.709705480303218/3, 7.709705480303218/3,7.709705480303218/3, 30.051779130939067/2, 30.051779130939067/2, 18.30578683567375, 8.689780870717865, 20.197174930615965, 7.699763887162918, 1.4912389710451102, 2.1656103723955096], color="black", label="2018 demographic data")
+plt.scatter(index - bar_width/2,  [3.625269482515741/4, 3.625269482515741/4,3.625269482515741/4,3.625269482515741/4, 6.814697206721303/3, 6.814697206721303/3,6.814697206721303/3, 27.313269046673984/2, 27.313269046673984/2, 18.740417318483583, 10.594846171207982, 21.034812860445026, 9.329348494400213, 1.0903826846295734, 1.4569567349225991],color="black")
+
 # Add title and labels
 plt.title('Percentage Distribution of Education Levels by Sex')
 plt.xlabel('Education Level')
@@ -381,7 +385,7 @@ plt.legend()
 
 # Display the bar graph
 plt.tight_layout()
-plt.savefig(os.path.join("..", "plots", 'data_analysis_educ'))
+plt.savefig(os.path.join("plots", 'data_analysis_educ'))
 plt.show()
 
 #marital status
@@ -400,6 +404,10 @@ plt.bar(index + bar_width /2 + bar_width, values_male_new, bar_width, label='201
 plt.bar(index - bar_width/2 -bar_width, values_female, bar_width, label='Old, Female', color='palevioletred')
 plt.bar(index - bar_width/2, values_female_new , bar_width, label='2018, Female', color='lightpink')
 
+#Add demographic data 
+plt.scatter(index + bar_width /2 + bar_width,[x*100 for x in [0.355, 0.531, 0.016, 0.089, 0.009] ], color="black", label="2018 demographic data")
+plt.scatter(index - bar_width/2, [x*100 for x in[0.342 , 0.475 , 0.025 , 0.130 , 0.027 ] ],color="black")
+
 # Add title and labels
 plt.title('Percentage Distribution of marital status by Sex')
 plt.xlabel('Education Level')
@@ -409,5 +417,5 @@ plt.legend()
 
 # Display the bar graph
 plt.tight_layout()
-plt.savefig(os.path.join("..", "plots", 'data_analysis_mar'))
+plt.savefig(os.path.join("plots", 'data_analysis_mar'))
 plt.show()
